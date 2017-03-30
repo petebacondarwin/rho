@@ -11,7 +11,7 @@ describe('AsyncCompiler', function() {
   describe('in a simple usage scenario', function() {
 
     it('should process simple blocks asynchronously', function(done) {
-      c.render("Hello *world*!\n\nOne more.\n\nAnother one.",
+      c.render("Hello **world**!\n\nOne more.\n\nAnother one.",
         function(err, html) {
           assert.equal(html.trim(),
             "<p>Hello <strong>world</strong>!</p>\n" +

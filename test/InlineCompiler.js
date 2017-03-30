@@ -53,14 +53,19 @@ describe('InlineCompiler', function() {
     });
 
     it('should process ems and strongs', function() {
-      assert.equal(c.toHtml("Text *_ * _*"), "Text <strong>_ </strong> _*");
+      assert.equal(c.toHtml("Text *_ * _*"), "Text <em>_ </em> _*");
       assert.equal(c.toHtml("Text _ * _*"), "Text <em> * </em>*");
+      assert.equal(c.toHtml("Text **_ ** _*"), "Text <strong>_ </strong> _*");
+      assert.equal(c.toHtml("Text __ * __*"), "Text <strong> * </strong>*");
     });
 
     it('should respect backslashes while on ems/strongs', function() {
       assert.equal(
-        c.toHtml("Text *_ \\* _*"),
-        "Text <strong><em> * </em></strong>");
+        c.toHtml("Text **_ \\** _**"),
+        "Text <strong><em> ** </em></strong>");
+      assert.equal(
+        c.toHtml("Text __* \\__ *__"),
+        "Text <strong><em> __ </em></strong>");
     });
 
     it('should process triple code spans', function() {

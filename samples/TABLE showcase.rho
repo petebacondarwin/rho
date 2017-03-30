@@ -39,7 +39,7 @@ Inline markup inside and selectors:
 -------------------------------------------->  {.bordered.rows.cols;border-collapse: collapse}
    This   |   That   |   This `code` That
 ---------------------------------------------
-   foo    |   foo    |   Hello, *WORLD*!
+   foo    |   foo    |   Hello, **WORLD**!
    bar    |   baz    |   Bye, `WORLD`!
 ---------------------------------------------
 
