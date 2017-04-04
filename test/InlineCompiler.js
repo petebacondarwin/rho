@@ -149,6 +149,60 @@ describe('InlineCompiler', function() {
         "<a href=\"https://github.com/inca/rho\">Rho</a> is awesome!");
     });
 
+    it("should process inline links with titles", function() {
+      // Double-quotes title
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho \"Good ol' title!\") is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol&#x27; title!\">Rho</a> is awesome!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho   \"Good ol' title!\"   ) is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol&#x27; title!\">Rho</a> is awesome!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho \"Good ol\\\" title!\") is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol\\&quot; title!\">Rho</a> is awesome!");
+
+      // Single-quoted title
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho 'Good ol\" title!') is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol&quot; title!\">Rho</a> is awesome!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho   'Good ol\" title!'   ) is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol&quot; title!\">Rho</a> is awesome!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho 'Good ol\\' title!') is awesome!"),
+        "<a href=\"https://github.com/inca/rho\" title=\"Good ol\\&#x27; title!\">Rho</a> is awesome!");
+
+      // No ending quote; not a title
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho \"Not a title) is awesome!"),
+        "<a href=\"https://github.com/inca/rho \"Not a title\">Rho</a> is awesome!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho 'Not a title) is awesome!"),
+        "<a href=\"https://github.com/inca/rho 'Not a title\">Rho</a> is awesome!");
+
+      // No ending quote before `)`; not a title
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho \"Not a title) is \"awesome\"!"),
+        "<a href=\"https://github.com/inca/rho \"Not a title\">Rho</a> is &ldquo;awesome&rdquo;!");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho 'Not a title) is 'awesome'!"),
+        "<a href=\"https://github.com/inca/rho 'Not a title\">Rho</a> is 'awesome'!");
+
+      // No quotes before `)`; not a title
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho) \"Not a title\""),
+        "<a href=\"https://github.com/inca/rho\">Rho</a> &ldquo;Not a title&rdquo;");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho   ) \"Not a title\""),
+        "<a href=\"https://github.com/inca/rho   \">Rho</a> &ldquo;Not a title&rdquo;");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho) 'Not a title'"),
+        "<a href=\"https://github.com/inca/rho\">Rho</a> 'Not a title'");
+      assert.equal(
+        c.toHtml("[Rho](https://github.com/inca/rho   ) 'Not a title'"),
+        "<a href=\"https://github.com/inca/rho   \">Rho</a> 'Not a title'");
+    });
+
     it("should resolve reference images", function() {
       assert.equal(
         c.toHtml("Me: ![Boris Okunskiy][gravatar]"),
